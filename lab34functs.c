@@ -42,3 +42,47 @@ void print_bits(void* ptr, int num_bytes) {
     printf("\n");
 }
 
+unsigned int reverse_bits(unsigned int num) {
+    unsigned int reversed = 0;
+    
+    for (int i = 0; i < 32; i++) {
+        // Shift the reversed number left by 1 to make room for the new bit
+        reversed <<= 1;
+        
+        // Get the rightmost bit of the input number and add it to the reversed result
+        reversed |= (num & 1);
+        
+        // Shift the input number right by 1 to process the next bit
+        num >>= 1;
+    }
+    
+    return reversed;
+}
+
+unsigned int bit_rotate_left(unsigned int num, int n) {
+    // Ensure n is in the valid range [0, 31] to avoid unnecessary shifts
+    n = n % 32;
+
+    // Left shift the number by n bits and mask to fit within 32 bits
+    unsigned int left_shifted = num << n;
+
+    // Right shift the number by (32 - n) to capture overflow bits
+    unsigned int right_shifted = num >> (32 - n);
+
+    // Combine the left shifted part and the right shifted part using OR
+    return left_shifted | right_shifted;
+}
+
+unsigned int bit_rotate_right(unsigned int num, int n) {
+    // Ensure n is in the valid range [0, 31] to avoid unnecessary shifts
+    n = n % 32;
+
+    // Right shift the number by n bits and mask to fit within 32 bits
+    unsigned int right_shifted = num >> n;
+
+    // Left shift the number by (32 - n) to capture the overflow bits
+    unsigned int left_shifted = num << (32 - n);
+
+    // Combine the right shifted part and the left shifted overflow part using OR
+    return right_shifted | left_shifted;
+}
